@@ -1,6 +1,5 @@
-from app import index
+from app import greet
 
 
-def test_index():
-    assert index() == "Hello, world!"
-
+def test_greet():
+    assert greet() == "Hello, world!"

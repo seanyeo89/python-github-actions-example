@@ -15,6 +15,11 @@ class Todo(db.Model):
     def __repr__(self):
         return '<Task %r>' %self.id
 
+@app.route("/greeting")
+def greet():
+    return "Hello, world!"
+
+
 @app.route('/',methods=['POST','GET'])
 def index():
     if request.method =='POST':

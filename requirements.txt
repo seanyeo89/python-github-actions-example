@@ -9,3 +9,12 @@ MarkupSafe>=2.0
 SQLAlchemy==1.3.22
 Werkzeug>=2.0
 pytest
+dash
+pandas
+numpy 
+plotly
+dash-table
+dash-core-components
+dash-html-components
+dash-renderer
+dash-table

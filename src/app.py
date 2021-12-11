@@ -1,71 +1,145 @@
-from flask import Flask,render_template, url_for ,request ,redirect
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import pandas as pd
+import plotly.express as px
+import datetime
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
-db = SQLAlchemy(app)
+import dash
+from dash import dash_table
+from dash import dcc
+from dash import html
+from dash.dependencies import Input, Output
 
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content=db.Column(db.String(200),nullable=False)
-    completed=db.Column(db.Integer,default=0)
-    date_created=db.Column(db.DateTime, default=datetime.utcnow)
+app = dash.Dash(__name__)
+server = app.server
 
-    def __repr__(self):
-        return '<Task %r>' %self.id
+#---------------------------------------------------------------
+#Taken from https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases
+df = pd.read_csv("Dec2020data.csv")
+
+dff = df.groupby('countriesAndTerritories', as_index=False)[['deaths','cases']].sum()
+print (dff[:5])
+#---------------------------------------------------------------
+app.layout = html.Div([
+    html.Div([
+        dash_table.DataTable(
+            id='datatable_id',
+            data=dff.to_dict('records'),
+            columns=[
+                {"name": i, "id": i, "deletable": False, "selectable": False} for i in dff.columns
+            ],
+            editable=False,
+            filter_action="native",
+            sort_action="native",
+            sort_mode="multi",
+            row_selectable="multi",
+            row_deletable=False,
+            selected_rows=[],
+            page_action="native",
+            page_current= 0,
+            page_size= 6,
+            # page_action='none',
+            # style_cell={
+            # 'whiteSpace': 'normal'
+            # },
+            # fixed_rows={ 'headers': True, 'data': 0 },
+            # virtualization=False,
+            style_cell_conditional=[
+                {'if': {'column_id': 'countriesAndTerritories'},
+                 'width': '40%', 'textAlign': 'left'},
+                {'if': {'column_id': 'deaths'},
+                 'width': '30%', 'textAlign': 'left'},
+                {'if': {'column_id': 'cases'},
+                 'width': '30%', 'textAlign': 'left'},
+            ],
+        ),
+    ],className='row'),
+
+    html.Div([
+        html.Div([
+            dcc.Dropdown(id='linedropdown',
+                options=[
+                         {'label': 'Deaths', 'value': 'deaths'},
+                         {'label': 'Cases', 'value': 'cases'}
+                ],
+                value='deaths',
+                multi=False,
+                clearable=False
+            ),
+        ],className='six columns'),
+
+        html.Div([
+        dcc.Dropdown(id='piedropdown',
+            options=[
+                     {'label': 'Deaths', 'value': 'deaths'},
+                     {'label': 'Cases', 'value': 'cases'}
+            ],
+            value='cases',
+            multi=False,
+            clearable=False
+        ),
+        ],className='six columns'),
+
+    ],className='row'),
+
+    html.Div([
+        html.Div([
+            dcc.Graph(id='linechart'),
+        ],className='six columns'),
+
+        html.Div([
+            dcc.Graph(id='piechart'),
+        ],className='six columns'),
+
+    ],className='row'),
+
+
+])
+
+#Choice of filtered countries in this case 5 of which are focused on------------------------------------------------------------------
+@app.callback(
+    [Output('piechart', 'figure'),
+     Output('linechart', 'figure')],
+    [Input('datatable_id', 'selected_rows'),
+     Input('piedropdown', 'value'),
+     Input('linedropdown', 'value')]
+)
+def update_data(chosen_rows,piedropval,linedropval):
+    if len(chosen_rows)==0:
+        df_filterd = dff[dff['countriesAndTerritories'].isin(['China','Iran','Spain','Italy'])]
+    else:
+        print(chosen_rows)
+        df_filterd = dff[dff.index.isin(chosen_rows)]
+
+    pie_chart=px.pie(
+            data_frame=df_filterd,
+            names='countriesAndTerritories',
+            values=piedropval,
+            hole=.3,
+            labels={'countriesAndTerritories':'Countries'}
+            )
+
+
+    #extract list of chosen countries
+    list_chosen_countries=df_filterd['countriesAndTerritories'].tolist()
+    #filter original df according to chosen countries
+    #because original df has all the complete dates
+    df_line = df[df['countriesAndTerritories'].isin(list_chosen_countries)]
+
+    line_chart = px.line(
+            data_frame=df_line,
+            x='dateRep',
+            #x = [datetime.datetime.strptime(d,"%d/%m/%Y").date() for d in 'dateRep'],
+            y=linedropval,
+            color='countriesAndTerritories',
+            labels={'countriesAndTerritories':'Countries', 'dateRep':'date'},
+            )
+    line_chart.update_layout(uirevision='foo')
+
+    return (pie_chart,line_chart)
 
 @app.route("/greeting")
 def greet():
     return "Hello Sean, world!"
+#------------------------------------------------------------------
 
-
-@app.route('/',methods=['POST','GET'])
-def index():
-    if request.method =='POST':
-        task_content = request.form['content']
-        new_task=Todo(content=task_content)
-
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect('/')
-
-        except:
-            return 'There was an issue adding your task'
-    else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
-        #order by date created and display tasks in table
-        return render_template('index.html',tasks=tasks)
-
-@app.route('/delete/<int:id>')
-##get the unique id 
-def delete(id):
-    task_to_delete = Todo.query.get_or_404(id)
-
-    try:
-        db.session.delete(task_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return 'There was a problem deleting that task'
-
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-    task = Todo.query.get_or_404(id)
-
-    if request.method == 'POST':
-        task.content = request.form['content']
-
-        try:
-            db.session.commit()
-            return redirect('/')
-        except:
-            return 'There was an issue updating your task'
-
-    else:
-        return render_template('update.html', task=task)
-
-        
-if __name__=="__main__":
-    app.run(debug=True,port=5000)
+if __name__ == '__main__':
+    app.run_server(debug=True)

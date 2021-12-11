@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.express as px
-import datetime
 
 import dash
 from dash import dash_table

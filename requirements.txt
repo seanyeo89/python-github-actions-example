@@ -1,3 +1,11 @@
-flask
+###### Requirements Version Specifiers ######
+Click>=7.1.2
+Flask==2.0.2
+Flask-SQLAlchemy==2.4.4
+gunicorn==19.9.0
+itsdangerous>=2.0
+Jinja2>=3.0
+MarkupSafe>=2.0
+SQLAlchemy==1.3.22
+Werkzeug>=2.0
 pytest
-gunicorn

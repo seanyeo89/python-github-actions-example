@@ -17,7 +17,7 @@ class Todo(db.Model):
 
 @app.route("/greeting")
 def greet():
-    return "Hello, world!"
+    return "Hello Sean, world!"
 
 
 @app.route('/',methods=['POST','GET'])

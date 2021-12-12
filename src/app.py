@@ -1,22 +1,23 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
+from dash import dash_table as dt
 from dash.dependencies import Input, Output, State
 from stockstats import StockDataFrame as Sdf
 import dash_bootstrap_components as dbc
-import dash_table as dt
 import yahoo_fin.stock_info as yf
 import plotly.graph_objs as go
 from datetime import datetime, timedelta
-import pickle
+from yahoo_fin import stock_info as si
+##import pickle
 import random
 
 
 # defining style color
 colors = {"background": "#000000", "text": "#ffFFFF"}
 
-with open("tickers.pickle", "rb") as f:
-    ticker_list = pickle.load(f)
+ticker_list = si.tickers_sp500()
+ticker_list = [item.replace(".", "-") for item in ticker_list]
 
 external_stylesheets = [dbc.themes.SLATE]
 

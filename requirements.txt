@@ -19,5 +19,5 @@ dash-html-components
 dash-renderer
 stockstats
 requests
-request-html
+requests-html
 yahoo_fin

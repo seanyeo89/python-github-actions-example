@@ -1,5 +1,6 @@
-from app_alternative import greet
+def inc(x):
+    return x + 1
 
 
-def test_greet():
-    assert greet() == "Hello Sean, world!"
+def test_answer():
+    assert inc(4) == 5

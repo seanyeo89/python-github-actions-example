@@ -171,10 +171,6 @@ def update_data(chosen_rows,piedropval,linedropval):
 
     return (pie_chart,line_chart)
 """
-
-@app.route("/greeting")
-def greet():
-    return "Hello Sean, world!"
 #------------------------------------------------------------------
 
 if __name__ == '__main__':

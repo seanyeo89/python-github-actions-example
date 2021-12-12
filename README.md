@@ -12,3 +12,16 @@ Each change submitted to an application, even to development branches, is built 
 
 ## Continuous deployment
 Continuous deployment checks the code automatically, and does not requires human intervention to manually and strategically trigger the deployment of the changes. Through this, developer can reduce the routine manual labour and focus on higher value output.
+
+## Motivation of the project
+Develop a GITLAB workflow for CI/CD of python based web app with 2 examples of Flask and Dash.
+
+## Initialisation process
+
+
+
+
+
+## Types of test
+-Logic test for number of cases of covid-19
+-Warning test

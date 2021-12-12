@@ -13,11 +13,12 @@ dash
 pandas
 numpy 
 plotly
-dash-table
-dash-core-components
-dash-html-components
-dash-renderer
+dash_table
+dash_core_components
+dash_html_components
+dash_renderer
 stockstats
 requests
 requests-html
 yahoo_fin
+dash_bootstrap_components

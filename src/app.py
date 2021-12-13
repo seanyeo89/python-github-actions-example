@@ -52,7 +52,7 @@ app.layout = html.Div(
         html.Br(),
         html.Br(),
         html.Br(),
-        html.Br(),
+
         html.Div(
             [  # Dropdown Div
                 dbc.Row(
@@ -206,7 +206,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
     if n_clicks >= 1:  # Checking for user to click submit button
         #edit time horizon to 10 years max
         # loading data
-        start_date = datetime.now().date() - timedelta(days=10 * 365)
+        start_date = datetime.now().date() - timedelta(days=5 * 365)
         end_data = datetime.now().date()
         df = yf.get_data(
             ticker, start_date=start_date, end_date=end_data, interval="1d"
@@ -232,7 +232,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     "font": {"color": colors["text"]},
                 },
             )
-
+            #Correct error in code label of 10d
             fig.update_xaxes(
                 rangeslider_visible=True,
                 rangeselector=dict(
@@ -240,7 +240,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -260,13 +260,13 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
             )
 
-        # Candelstick
+        # Candlestick
         if chart_name == "Candlestick":
             fig = go.Figure(
                 data=[
@@ -296,7 +296,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -316,13 +316,13 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
             )
 
-        # simple oving average
+        # simple moving average
         if chart_name == "SMA":
             close_ma_10 = df.close.rolling(10).mean()
             close_ma_15 = df.close.rolling(15).mean()
@@ -360,7 +360,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -380,7 +380,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
@@ -435,7 +435,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
@@ -481,7 +481,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -501,13 +501,14 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
             )
 
         # Moving average convergence divergence
+        ##MACD is often displayed with a histogram (see the chart below) which graphs the distance between the MACD and its signal line. If the MACD is above the signal line, the histogram will be above the MACD’s baseline. If the MACD is below its signal line, the histogram will be below the MACD’s baseline. Traders use the MACD’s histogram to identify when bullish or bearish momentum is high.
         if chart_name == "MACD":
             df["MACD"], df["signal"], df["hist"] = (
                 stock["macd"],
@@ -523,7 +524,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                         x=list(df.index),
                         y=list(df["hist"]),
                         line=dict(color="royalblue", width=2, dash="dot"),
-                        name="Hitogram",
+                        name="Histogram",
                     ),
                 ],
                 layout={
@@ -543,7 +544,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -563,22 +564,26 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
             )
 
             # Relative strength index
+            #Some traders will consider it a “buy signal” if a security’s RSI reading moves below 30, based on the idea that the security has been oversold and is therefore poised for a rebound. 
         if chart_name == "RSI":
             rsi_6 = stock["rsi_6"]
-            rsi_12 = stock["rsi_12"]
+            rsi_14 = stock["rsi_14"]
+            rsi_30=stock["rsi_30"]
             fig = go.Figure(
                 data=[
                     go.Scatter(x=list(df.index), y=list(
                         rsi_6), name="RSI 6 Day"),
                     go.Scatter(x=list(df.index), y=list(
-                        rsi_12), name="RSI 12 Day"),
+                        rsi_14), name="RSI 14 Day"),
+                    go.Scatter(x=list(df.index), y=list(
+                        rsi_30), name="RSI 30 Day"),
                 ],
                 layout={
                     "height": 1000,
@@ -596,7 +601,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -616,14 +621,15 @@ def graph_genrator(n_clicks, ticker, chart_name):
                                  stepmode="backward"),
                             dict(count=1, label="YTD",
                                  step="year", stepmode="todate"),
-                            dict(step="all"),
+                            ##dict(step="all"),
                         ]
                     ),
                 ),
             )
-
+    #edited time delta to reflect price changes in last 7 days mainly instead of original 1 month.
+    #Rationale of choice is to show cross week change although weekend will result in 4 days interval in the worse case scenario.
     end_data = datetime.now().date()
-    start_date = datetime.now().date() - timedelta(days=30)
+    start_date = datetime.now().date() - timedelta(days=7)
     res_df = yf.get_data(
         ticker, start_date=start_date, end_date=end_data, interval="1d"
     )
@@ -636,7 +642,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                 domain={"x": [0, 1], "y": [0, 1]},
                 value=price,
                 mode="number+delta",
-                title={"text": "Price"},
+                title={"text": "Price and 7d change in price"},
                 delta={"reference": prev_close},
             )
         ],

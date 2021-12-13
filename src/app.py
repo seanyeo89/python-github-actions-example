@@ -8,7 +8,6 @@ import dash_bootstrap_components as dbc
 import yahoo_fin.stock_info as yf
 import plotly.graph_objs as go
 from datetime import datetime, timedelta
-from yahoo_fin import stock_info as si
 ##import pickle
 import random
 
@@ -16,7 +15,7 @@ import random
 # defining style color
 colors = {"background": "#000000", "text": "#ffFFFF"}
 
-ticker_list = si.tickers_sp500()
+ticker_list = yf.tickers_sp500()
 ticker_list = [item.replace(".", "-") for item in ticker_list]
 
 external_stylesheets = [dbc.themes.SLATE]
@@ -107,6 +106,7 @@ app.layout = html.Div(
                                     {"label": "MACD", "value": "MACD"},
                                     {"label": "RSI", "value": "RSI"},
                                     {"label": "OHLC", "value": "OHLC"},
+                                    {"label": "BOLL", "value": "BOLL"}
                                 ],
                                 value="Line",
                                 style={"color": "#000000"},
@@ -415,7 +415,7 @@ def graph_genrator(n_clicks, ticker, chart_name):
                     bgcolor=colors["background"],
                     buttons=list(
                         [
-                            dict(count=7, label="10D",
+                            dict(count=10, label="10D",
                                  step="day", stepmode="backward"),
                             dict(
                                 count=15, label="15D", step="day", stepmode="backward"
@@ -441,6 +441,88 @@ def graph_genrator(n_clicks, ticker, chart_name):
                 ),
             )
 
+
+         # Bollinger
+
+         # Define the parameters for the Bollinger Band calculation
+        
+        if chart_name == "BOLL":
+
+            # Define the parameters for the Bollinger Band calculation
+            ma_size = 20
+            bol_size = 2
+            df.insert(0, 'moving_average', df['close'].rolling(ma_size).mean())
+
+            # Calculate the upper and lower Bollinger Bands
+            df.insert(0, 'bol_upper', df['moving_average'] + df['close'].rolling(ma_size).std() * bol_size)
+            df.insert(0, 'bol_lower', df['moving_average'] - df['close'].rolling(ma_size).std() * bol_size)
+            fig = go.Figure(
+                data=[
+                    go.Candlestick(
+                        x=df.index,
+                        open=df.open,
+                        high=df.high,
+                        low=df.low,
+                        close=df.close,
+                    )
+                ],
+            layout={
+                    "height": 1000,
+                    "title": chart_name,
+                    "showlegend": True,
+                    "plot_bgcolor": colors["background"],
+                    "paper_bgcolor": colors["background"],
+                    "font": {"color": colors["text"]},
+                }
+            )
+            trace1 = go.Scatter(
+             x=df.index, y=df['bol_upper'], mode="lines", showlegend=False, name="BB_upper"
+            )
+
+            trace2 = go.Scatter(
+            x=df.index, y=df['moving_average'], mode="lines", showlegend=False, name="BB_mean"
+            )
+
+            trace3 = go.Scatter(
+            x=df.index, y=df['bol_lower'], mode="lines", showlegend=False, name="BB_lower"
+            )
+
+            fig.add_trace(trace1)  # plot in first row
+            fig.add_trace(trace2)  # plot in first row
+            fig.add_trace(trace3)  # plot in first row
+
+            fig.update_xaxes(
+                rangeslider_visible=True,
+                rangeselector=dict(
+                    activecolor="blue",
+                    bgcolor=colors["background"],
+                    buttons=list(
+                        [
+                            dict(count=10, label="10D",
+                                 step="day", stepmode="backward"),
+                            dict(
+                                count=15, label="15D", step="day", stepmode="backward"
+                            ),
+                            dict(
+                                count=1, label="1m", step="month", stepmode="backward"
+                            ),
+                            dict(
+                                count=3, label="3m", step="month", stepmode="backward"
+                            ),
+                            dict(
+                                count=6, label="6m", step="month", stepmode="backward"
+                            ),
+                            dict(count=1, label="1y", step="year",
+                                 stepmode="backward"),
+                            dict(count=5, label="5y", step="year",
+                                 stepmode="backward"),
+                            dict(count=1, label="YTD",
+                                 step="year", stepmode="todate"),
+                            ##dict(step="all"),
+                        ]
+                    ),
+                ),
+            )
         # Exponential moving average
         if chart_name == "EMA":
             close_ema_10 = df.close.ewm(span=10).mean()
@@ -635,15 +717,15 @@ def graph_genrator(n_clicks, ticker, chart_name):
     )
     price = yf.get_live_price(ticker)
     prev_close = res_df.close.iloc[0]
-
+    #edit price indicator to show percentage change
     live_price = go.Figure(
         data=[
             go.Indicator(
                 domain={"x": [0, 1], "y": [0, 1]},
-                value=price,
+                value=round(price,3),
                 mode="number+delta",
                 title={"text": "Price and 7d change in price"},
-                delta={"reference": prev_close},
+                delta={"reference": prev_close,'relative': True},
             )
         ],
         layout={

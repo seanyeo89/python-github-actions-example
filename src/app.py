@@ -70,21 +70,20 @@ app.layout = html.Div(
                                 searchable=True,
                                 value=str(
                                     random.choice(
-                                        [
-                                            "TSLA",
-                                            "GOOGL",
+                                        [   "TSLA",
+                                            "GM",
                                             "F",
-                                            "GE",
-                                            "AAL",
-                                            "DIS",
-                                            "DAL",
-                                            "AAPL",
-                                            "MSFT",
-                                            "CCL",
-                                            "GPRO",
-                                            "ACB",
-                                            "PLUG",
+                                            "FB",
                                             "AMZN",
+                                            "AAPL",
+                                            "NFLX",
+                                            "GOOGL",
+                                            "KO",
+                                            "DIS",
+                                            "MSFT",
+                                            "NVDA",
+                                            "AMD",
+                                            "NKE",
                                         ]
                                     )
                                 ),
@@ -205,9 +204,9 @@ app.layout = html.Div(
 def graph_genrator(n_clicks, ticker, chart_name):
 
     if n_clicks >= 1:  # Checking for user to click submit button
-
+        #edit time horizon to 10 years max
         # loading data
-        start_date = datetime.now().date() - timedelta(days=5 * 365)
+        start_date = datetime.now().date() - timedelta(days=10 * 365)
         end_data = datetime.now().date()
         df = yf.get_data(
             ticker, start_date=start_date, end_date=end_data, interval="1d"

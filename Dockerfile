@@ -15,4 +15,5 @@ RUN pip install -r requirements.txt
 COPY src/ .
 
 # command to run on container start
-CMD [ "python", "./app.py" ,"--host=0.0.0.0" ]
+#CMD [ "python", "./app.py" ,"--host=0.0.0.0" ]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:server"]

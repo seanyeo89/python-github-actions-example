@@ -9,7 +9,7 @@ def time_it (func):
         start = time.time()
         result = func(*args, **kwargs)
         end = time.time()
-        print(func.__name___ + "took" + str(end - start) * 1000 + "mil sec")
+        print(func.__name__ + "took" + str(1000*(end - start)) + "mil sec")
         return result
     return wrapper
  
@@ -21,7 +21,7 @@ def calc_square(num):
     for num in num:
         result.append(num*num)
         end = time.time()
-        print("calc_square took: " + str(end - start) * 1000 + " mil sec")
+        print("calc_square took: " + str(1000*(end - start)) + "mil sec")
  
  
 @time_it
@@ -31,7 +31,7 @@ def calc_cude(num):
     for num in num:
         result.append(num*num*num)
         end = time.time()
-        print("calc_cube took: " + str(end-start)*1000 + "mil sec")
+        print("calc_cube took: " + str(1000*(end-start)) + "mil sec")
  
-array = range(1,10)
+array = range(1,100)
 out_square = calc_square(array)

@@ -1,13 +1,17 @@
+# set base image (host OS)
+FROM python:3.8
 
- FROM python:3.8-slim-buster
- RUN apt-get update
- RUN apt-get install nano
- 
- RUN mkdir wd
- WORKDIR wd
- COPY requirements.txt .
- RUN pip3 install -r requirements.txt
-  
- COPY src/ ./
-  
- CMD [ "gunicorn", "--workers=5", "--threads=1", "-b 0.0.0.0:80", "app:server"]
+# set the working directory in the container
+WORKDIR /code
+
+# copy the dependencies file to the working directory
+COPY requirements.txt .
+
+# install dependencies
+RUN pip install -r requirements.txt
+
+# copy the content of the local src directory to the working directory
+COPY src/ .
+
+# command to run on container start
+CMD [ "python", "./app.py" ]

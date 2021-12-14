@@ -9,6 +9,6 @@ jobs:
        - name: Build the Docker image
          run: |
             docker build . --file Dockerfile --tag python-docker
-            docker run --detach --publish 8080:8080 python-docker
-            curl localhost:8080
+            docker run -d --publish 5000:5000 python-docker
+            curl localhost:5000
       

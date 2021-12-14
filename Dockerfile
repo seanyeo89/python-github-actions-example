@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 COPY src/ .
 
 # command to run on container start
-CMD [ "python", "./app.py" ]
+CMD [ "python", "./app.py" ,"--host=0.0.0.0" ]

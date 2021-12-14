@@ -14,7 +14,30 @@ Each change submitted to an application, even to development branches, is built 
 Continuous deployment checks the code automatically, and does not requires human intervention to manually and strategically trigger the deployment of the changes. Through this, developer can reduce the routine manual labour and focus on higher value output.
 
 ## Motivation of the project
-Develop a GITLAB workflow for CI/CD of python based web app with 2 examples of Flask and Dash.
+-Develop a GITLAB workflow for CI/CD of python based web app with 2 examples of Flask and Dash.
+-Enable easy deployment by just adjusting the src folder app.py.
+
+## Outcome
+Dash dashboard that returns a random stock ticker from a list of selected companies namely FAANG, Tesla, GM , Ford and others like Microsoft
+
+## Steps
+Iteration 1:
+Develop workflow that can render Hello World Flask App and successfully link to Heroku.
+Iteration 2:
+Try out with task master app to observe if Flask CRUD functions can work.
+Iteration 3: 
+Edit to do with COVID 19 dataset. 
+Iteration 4:
+Focus on End goal of stock market understanding and customisation of parameters such as Bollinger Bands and RSI to desired intervals instead of industry standard.
+Iteration 5:
+Add on perhaps news feed via API to focus on articles on Dashboard at side.
+
+## Challenges
+1) Setting up environment variables and compatability of software version. Complete requirements.txt
+2) Procfile difference between Flask app and Dash. Flask app uses command app:app while Dash involves app:server.
+3) Heroku inability to find local files. (Trying to find a go around). Current solution involves utilising data from yahoo finance stock info.
+4) Problem with yahoo finance stock info due to stock splits as compared to google. E.g of AAPL which will result in difficulty in visualising.
+
 
 ## Initialisation process
 

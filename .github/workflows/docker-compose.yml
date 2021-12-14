@@ -7,7 +7,7 @@ jobs:
     steps:
        - uses: actions/checkout@v2
        - name: Build the Docker image
-       - run: docker build . --file Dockerfile --tag python-docker
+          run: docker build . --file Dockerfile --tag python-docker
               docker run python-docker
               docker run --publish 5000:5000 python-docker
               curl localhost:5000

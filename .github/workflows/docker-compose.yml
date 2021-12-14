@@ -10,4 +10,3 @@ jobs:
          run: |
             docker build . --tag python-docker
             docker run -d --publish 5000:5000 python-docker
-            curl localhost:5000

@@ -33,5 +33,5 @@ def calc_cude(num):
         end = time.time()
         print("calc_cube took: " + str(end-start)*1000 + "mil sec")
  
-array = range(1,100000)
+array = range(1,10)
 out_square = calc_square(array)

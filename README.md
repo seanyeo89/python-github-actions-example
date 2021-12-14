@@ -52,12 +52,14 @@ After
 
 ## Initialisation process
 Step 1. Create a new folder for your project/clone a repo.
+
 Step 2. Virtual environment
 $ virtualenv venv # creates a virtualenv called "venv"
 $ source venv/bin/activate # uses the virtualenv
-
 virtualenv creates a fresh Python instance. You will need to reinstall your app's dependencies with this virtualenv
+
 Step 3. $ pip install -r requirements.txt
+
 Step 4. procfile settings
 Procfile
 1)web: gunicorn app:server

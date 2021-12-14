@@ -41,7 +41,7 @@ Compare with S&P500 returns as well.
 
 ### 2) Procfile difference between Flask app and Dash. Flask app uses command app:app while Dash involves app:server.
 ### 3) Heroku inability to find local files. (Trying to find a go around). Current solution involves utilising data from yahoo finance stock info.
-![image]https://i.postimg.cc/MTy8df3Z/Covid-data.jpg
+![image]screenshots/AAPL_Boll_bands_pre_update.JPG
 ### 4) Problem with yahoo finance stock info due to stock splits as compared to google. E.g of AAPL which will result in difficulty in visualising.
 
 

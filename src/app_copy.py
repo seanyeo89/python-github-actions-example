@@ -1,6 +1,6 @@
 import pandas as pd
 import plotly.express as px
-
+import requests
 import dash
 from dash import dash_table
 from dash import dcc
@@ -14,7 +14,17 @@ server = app.server
 #---------------------------------------------------------------
 #Taken from https://www.ecdc.europa.eu/en/geographical-distribution-2019-ncov-cases
 
+##make a get request to this link
+##https://raw.githubusercontent.com/seanyeo89/python-github-actions-example/master/src/Dec2020data.csv
+"""
+payload={}
+headers = {}
+url = "https://raw.githubusercontent.com/seanyeo89/python-github-actions-example/master/src/Dec2020data.csv"
 
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.text)
+"""
 df = pd.read_csv("Dec2020data.csv")
 
 dff = df.groupby('countriesAndTerritories', as_index=False)[['deaths','cases']].sum()

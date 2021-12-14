@@ -21,7 +21,7 @@ def test_close():
 
 ##Size of S&P500 IS 505 stock tickers
 def test_size():
- assert len(ticker_list) == 505
+    assert len(ticker_list) == 505
 
 def col_list():
     col_list=list(df.columns.values.tolist())
@@ -30,3 +30,15 @@ def col_list():
 ##7 variables of open,high,low,close,adjclose,vol etc.
 def test_col():
     assert len(col_list())==7
+
+## Exception handling
+## Dash
+## Unit testing and function testing
+## Regression test
+## Use of googlesheet API as a database to show when signals happen
+## Redis backend for a memory store.
+## Validating code
+## Use cases. Calling and importing functions.
+## Test answer(assert)
+## Data normalization
+## Check that each function is working

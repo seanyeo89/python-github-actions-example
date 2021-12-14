@@ -37,7 +37,7 @@ def read_player(payload):
 # Testing function
 
 test_payload={
-        "Player_id": randrange(5)
+        "Player_id": randrange(1,4)
     }
 
 def test_read_player():

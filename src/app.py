@@ -13,6 +13,9 @@ import random
 
 
 # defining style color
+## Redis key value stores
+## Perform data cleaning and data validation on redis
+## Use redis for 2 weeks. In memory database or persistent.
 colors = {"background": "#000000", "text": "#ffFFFF"}
 
 ticker_list = yf.tickers_sp500()

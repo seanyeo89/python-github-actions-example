@@ -27,7 +27,4 @@ jobs:
           context: .
           push: true
           tags: python-docker-dash-stock
-      -
-        name: Build the Docker image
-         run:docker run -d --publish 5000:5000 python-docker
             

@@ -1,15 +1,12 @@
-# set base image (host OS)
-FROM python:3.8
-# set the working directory in the container
-WORKDIR /code
-# copy the dependencies file to the working directory
-COPY requirements.txt .
-# install dependencies
-RUN python -m pip install --upgrade pip
+FROM python:3.9-slim
+COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
-# copy the content of the local src directory to the working directory
-COPY src/ .
+COPY . ./
+CMD gunicorn -b 0.0.0.0:80 src.app:server
 
-# command to run on container start
-
-CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
+#Docker
+#1)docker run -d -p
+#2)docker images
+#3)docker ps show u containers
+#4)docker log container-id
+#5)docker kill $(docker ps -q)

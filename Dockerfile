@@ -12,4 +12,4 @@ COPY src/ .
 
 # command to run on container start
 
-CMD[ "python", "-m" , "flask", "run", "--host=0.0.0.0"]
+CMD [ "python", "-m" , "flask", "run", "--host=0.0.0.0"]

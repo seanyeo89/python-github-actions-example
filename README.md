@@ -66,7 +66,8 @@ pushed to [Docker Hub](https://hub.docker.com/r/ssean89/python-docker-dash-stock
 3) docker ps
 4) docker images
 5) docker logs container id
-
+![image](screenshots/cloudshellstep1.JPG)
+![image](screenshots/cloudshellstep2.JPG)
 
 
 ## View on Heroku

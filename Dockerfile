@@ -10,3 +10,4 @@ CMD gunicorn -b 0.0.0.0:8080 src.app:server
 #3)docker ps show u containers
 #4)docker log container-id
 #5)docker kill $(docker ps -q)
+#Linkhttps://towardsdatascience.com/dockerize-your-dash-app-1e155dd1cea3

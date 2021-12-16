@@ -33,7 +33,12 @@ Try out with task master app to observe if Flask CRUD functions can work.
 Edit to do with COVID 19 dataset. Did locally but failed on heroku.
 ![image](screenshots/Covid_data.JPG)
 ### Iteration 4:
-Focus on End goal of stock market understanding and customisation of parameters such as Bollinger Bands and RSI to desired intervals instead of industry standard.
+Focus on End goal of stock market understanding and customisation of parameters such as Bollinger Bands and RSI to desired intervals instead of industry standard. 
+- Initial(go indicator delta in absolute change instead of relative)
+![image](screenshots/Initial_numerical_change.JPG)
+- After(improved indicator and RSI for 6,14 and 30)
+![image](screenshots/RSIandPercentage..JPG)
+
 
 ### Iteration 5:
 Add on perhaps news feed via API to focus on articles on Dashboard at side.Compare with S&P500 returns as well.
@@ -55,10 +60,14 @@ After
 # Docker Container in Dockerhub
 
 pushed to [Docker Hub](https://hub.docker.com/r/ssean89/python-docker-dash-stock)
+- In google cloud shell
+1) Run with: `docker run -d -p 8080:8080 ssean89/python-docker-dash-stock`
+2) Perform check below or just open in web preview
+3) docker ps
+4) docker images
+5) docker logs container id
 
-Run with:
 
-`docker run -d -p 8080:8080 ssean89/python-docker-dash-stock`
 
 ## View on Heroku
 Visit this link to see the deployed app on Heroku.

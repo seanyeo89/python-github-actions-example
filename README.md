@@ -34,21 +34,35 @@ Edit to do with COVID 19 dataset. Did locally but failed on heroku.
 ![image](screenshots/Covid_data.JPG)
 ### Iteration 4:
 Focus on End goal of stock market understanding and customisation of parameters such as Bollinger Bands and RSI to desired intervals instead of industry standard.
+
 ### Iteration 5:
-Add on perhaps news feed via API to focus on articles on Dashboard at side.
-### If possible
-Compare with S&P500 returns as well.
+Add on perhaps news feed via API to focus on articles on Dashboard at side.Compare with S&P500 returns as well.
 ## Challenges
 ### 1) Setting up environment variables and compatability of software version. Complete requirements.txt
 
 ### 2) Procfile difference between Flask app and Dash. Flask app uses command app:app while Dash involves app:server.
+
 ### 3) Heroku inability to find local files. (Trying to find a go around). Current solution involves utilising data from yahoo finance stock info.
+![image](screenshots/Heroku_deployment_success_but_app_error.JPG)
 
 ### 4) Problem with yahoo finance stock info due to stock splits as compared to google. E.g of AAPL which will result in difficulty in visualising.
 Before(problem with split which affected BOLL)
 ![image](screenshots/AAPL_Boll_bands_pre_update.JPG)
 After
 ![image](screenshots/Updated_boll_bands.JPG)
+
+
+# Docker Container in Dockerhub
+
+pushed to [Docker Hub](https://hub.docker.com/r/ssean89/python-docker-dash-stock)
+
+Run with:
+
+`docker run -d -p 8080:8080 ssean89/python-docker-dash-stock`
+
+## View on Heroku
+Visit this link to see the deployed app on Heroku.
+https://protected-inlet-84479.herokuapp.com/
 
 ## Initialisation process
 Step 1. Create a new folder for your project/clone a repo.
@@ -72,5 +86,7 @@ Step 5. Just test out with a simple hello world app and assert hello world test 
 Step 6. CI/CD by focusing on app.py and tests
 
 ## Types of test
--Logic test for number of cases of covid-19
--Warning test
+-Logic test for number of ticker
+-Data validation test. I.e price of AAPL maximum.
+![image](screenshots/testing_assertion_error_for_ATH.JPG)
+
